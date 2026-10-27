@@ -1,0 +1,19 @@
+{
+  "type": "enhancedcelestials2core:text_components",
+  "settings": {
+    "components": {
+      "start_notification": {
+        "type": "CHAT",
+        "component": {
+          "key": "enhancedcelestials2core.plus.wanderers_moon.rise"
+        }
+      },
+      "end_notification": {
+        "type": "CHAT",
+        "component": {
+          "key": "enhancedcelestials2core.plus.wanderers_moon.set"
+        }
+      }
+    }
+  }
+}

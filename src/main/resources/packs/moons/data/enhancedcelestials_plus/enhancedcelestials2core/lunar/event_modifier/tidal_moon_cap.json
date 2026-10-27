@@ -1,0 +1,9 @@
+{
+  "type": "enhancedcelestials2core:spawn_category_multiplier",
+  "settings": {
+    "multipliers": {
+      "water_ambient": 1.5,
+      "water_creature": 1.25
+    }
+  }
+}

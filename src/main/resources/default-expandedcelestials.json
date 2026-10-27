@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 4,
+  "enabled": true,
+  "allowOverworldGhasts": false,
+  "events": {
+    "enhancedcelestials2core:big_moon": {
+      "enabled": true,
+      "dimensions": [
+        "minecraft:overworld"
+      ],
+      "gravityMultiplier": 0.6,
+      "miningSpeedMultiplier": 1,
+      "attributes": [],
+      "mechanics": {
+        "worldGravity": true
+      }
+    },
+    "enhancedcelestials2core:tiny_moon": {
+      "enabled": true,
+      "dimensions": [
+        "minecraft:overworld"
+      ],
+      "gravityMultiplier": 1.4,
+      "miningSpeedMultiplier": 1,
+      "attributes": [],
+      "mechanics": {
+        "worldGravity": true
+      }
+    },
+    "enhancedcelestials2core:miner_moon": {
+      "enabled": true,
+      "dimensions": [
+        "minecraft:overworld"
+      ],
+      "gravityMultiplier": 1,
+      "miningSpeedMultiplier": 1,
+      "attributes": [],
+      "mechanics": {
+        "hasteLevel": 1
+      }
+    },
+    "enhancedcelestials_plus:blood_moon": {
+      "enabled": true,
+      "dimensions": [
+        "minecraft:overworld"
+      ],
+      "gravityMultiplier": 1,
+      "miningSpeedMultiplier": 1,
+      "attributes": []
+    },
+    "enhancedcelestials_plus:eclipse": {
+      "enabled": true,
+      "dimensions": [
+        "minecraft:overworld"
+      ],
+      "gravityMultiplier": 1,
+      "miningSpeedMultiplier": 1,
+      "attributes": [],
+      "mechanics": {
+        "themedSpawns": true
+      }
+    },
+    "enhancedcelestials_plus:pink_moon": {
+      "enabled": true,
+      "dimensions": [
+        "minecraft:overworld"
+      ],
+      "gravityMultiplier": 1,
+      "miningSpeedMultiplier": 1,
+      "attributes": [],
+      "mechanics": {
+        "friendlyOnly": true,
+        "wildlifeGroupMultiplier": 1.25
+      }
+    },
+    "enhancedcelestials_plus:grey_moon": {
+      "enabled": true,
+      "dimensions": [
+        "minecraft:overworld"
+      ],
+      "gravityMultiplier": 1,
+      "miningSpeedMultiplier": 1,
+      "attributes": [],
+      "mechanics": {
+        "themedSpawns": true
+      }
+    },
+    "enhancedcelestials_plus:harvest_moon": {
+      "enabled": true,
+      "dimensions": [
+        "minecraft:overworld"
+      ],
+      "gravityMultiplier": 1,
+      "miningSpeedMultiplier": 1,
+      "attributes": [],
+      "mechanics": {
+        "cropGrowthChance": 0.25,
+        "cropBonusChance": 0.35
+      }
+    },
+    "enhancedcelestials_plus:blue_moon": {
+      "enabled": true,
+      "dimensions": [
+        "minecraft:overworld"
+      ],
+      "gravityMultiplier": 1,
+      "miningSpeedMultiplier": 1,
+      "attributes": [
+        {
+          "key": "luck",
+          "attribute": "minecraft:generic.luck",
+          "amount": 2,
+          "operation": "ADD_VALUE"
+        }
+      ]
+    },
+    "enhancedcelestials_plus:green_moon": {
+      "enabled": true,
+      "dimensions": [
+        "minecraft:overworld"
+      ],
+      "gravityMultiplier": 1,
+      "miningSpeedMultiplier": 1,
+      "attributes": []
+    },
+    "enhancedcelestials_plus:tidal_moon": {
+      "enabled": true,
+      "dimensions": [
+        "minecraft:overworld"
+      ],
+      "gravityMultiplier": 1,
+      "miningSpeedMultiplier": 1,
+      "attributes": [],
+      "mechanics": {
+        "fishingWaitMultiplier": 0.6
+      }
+    },
+    "enhancedcelestials_plus:hunters_moon": {
+      "enabled": true,
+      "dimensions": [
+        "minecraft:overworld"
+      ],
+      "gravityMultiplier": 1,
+      "miningSpeedMultiplier": 1,
+      "attributes": [],
+      "mechanics": {
+        "wildlifeGroupMultiplier": 1.5
+      }
+    },
+    "enhancedcelestials_plus:howling_moon": {
+      "enabled": true,
+      "dimensions": [
+        "minecraft:overworld"
+      ],
+      "gravityMultiplier": 1,
+      "miningSpeedMultiplier": 1,
+      "attributes": [],
+      "mechanics": {
+        "wildlifeGroupMultiplier": 1.5
+      }
+    },
+    "enhancedcelestials_plus:shroom_moon": {
+      "enabled": true,
+      "dimensions": [
+        "minecraft:overworld"
+      ],
+      "gravityMultiplier": 1,
+      "miningSpeedMultiplier": 1,
+      "attributes": [],
+      "mechanics": {
+        "fungusSpreadChance": 0.65
+      }
+    },
+    "enhancedcelestials_plus:storm_moon": {
+      "enabled": true,
+      "dimensions": [
+        "minecraft:overworld"
+      ],
+      "gravityMultiplier": 1,
+      "miningSpeedMultiplier": 1,
+      "attributes": [],
+      "mechanics": {
+        "storm": true,
+        "lightningChance": 0.004
+      }
+    },
+    "enhancedcelestials_plus:meteor_shower_moon": {
+      "enabled": true,
+      "dimensions": [
+        "minecraft:overworld"
+      ],
+      "gravityMultiplier": 1,
+      "miningSpeedMultiplier": 1,
+      "attributes": [],
+      "mechanics": {
+        "meteorDropChance": 0.0008
+      }
+    },
+    "enhancedcelestials_plus:ender_moon": {
+      "enabled": true,
+      "dimensions": [
+        "minecraft:overworld"
+      ],
+      "gravityMultiplier": 1,
+      "miningSpeedMultiplier": 1,
+      "attributes": [],
+      "mechanics": {
+        "themedSpawns": true,
+        "enderParticles": true,
+        "enderSky": true,
+        "enderParticleRate": 32
+      }
+    },
+    "enhancedcelestials_plus:wanderers_moon": {
+      "enabled": true,
+      "dimensions": [
+        "minecraft:overworld"
+      ],
+      "gravityMultiplier": 1,
+      "miningSpeedMultiplier": 1,
+      "attributes": [],
+      "mechanics": {
+        "traderBoost": true,
+        "extraTraderGoods": true
+      }
+    },
+    "enhancedcelestials_plus:prospectors_moon": {
+      "enabled": true,
+      "dimensions": [
+        "minecraft:overworld"
+      ],
+      "gravityMultiplier": 1,
+      "miningSpeedMultiplier": 1,
+      "attributes": [],
+      "mechanics": {
+        "oreXpMultiplier": 1.5,
+        "oreBonusChance": 0.15,
+        "mineralSparkles": true
+      }
+    }
+  }
+}

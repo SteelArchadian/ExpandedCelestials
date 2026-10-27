@@ -1,0 +1,19 @@
+{
+  "lunar_event": "enhancedcelestials_plus:pink_moon",
+  "dimensions": {
+    "minecraft:overworld": {
+      "priority": 5,
+      "spawn_requirements": {
+        "weight": 3,
+        "rules": [
+          {
+            "type": "enhancedcelestials2core:min_nights_between",
+            "settings": {
+              "min_nights": 12
+            }
+          }
+        ]
+      }
+    }
+  }
+}

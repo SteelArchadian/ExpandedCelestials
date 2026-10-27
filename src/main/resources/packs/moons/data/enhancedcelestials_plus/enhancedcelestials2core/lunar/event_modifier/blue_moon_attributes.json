@@ -1,0 +1,15 @@
+{
+  "type": "expandedcelestials:player_attributes",
+  "settings": {
+    "gravity_multiplier": 1,
+    "mining_speed_multiplier": 1,
+    "attributes": [
+      {
+        "key": "luck",
+        "attribute": "minecraft:generic.luck",
+        "amount": 2,
+        "operation": "ADD_VALUE"
+      }
+    ]
+  }
+}

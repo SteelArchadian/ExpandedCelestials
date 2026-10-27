@@ -1,0 +1,8 @@
+{
+  "type": "expandedcelestials:player_attributes",
+  "settings": {
+    "gravity_multiplier": 1.4,
+    "mining_speed_multiplier": 1,
+    "attributes": []
+  }
+}

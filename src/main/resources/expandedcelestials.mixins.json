@@ -1,0 +1,25 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.chill.expandedcelestials.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "FishingMixin",
+    "LightningMixin",
+    "MushroomMixin",
+    "TraderSpawnerMixin",
+    "TraderMixin",
+    "CropDropsMixin",
+    "EntityGravityMixin",
+    "NetherFormMixin",
+    "SurfaceSpawnMixin",
+    "ClearSkiesMixin"
+  ],
+  "client": [
+    "EndSkyMixin",
+    "QuietPromptsMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

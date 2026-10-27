@@ -1,0 +1,40 @@
+modLoader = "javafml"
+loaderVersion = "${loader_version_range}"
+license = "${mod_license}"
+
+[[mods]]
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
+authors = "Chill"
+description = '''An add-on for Enhanced Celestials 2 by Corgi Taco (install the official mod separately).
+
+Adds 19 moons with real gameplay: Big and Tiny Moon change gravity, Miner Moon gives Haste, Eclipse brings Nether mobs, Ender Moon turns the night into the End, and more (Blood, Pink, Pillager, Harvest, Blue, Green, Tidal, Hunter's, Howling, Shroom, Storm, Meteor Shower, Wanderer's, Prospector's).
+
+Switches: config/expandedcelestials-common.toml (extra moons, moons in rain, quiet join messages). Per-moon tuning: config/expandedcelestials.json. Commands: /ecplus status, test, reload, refreshForecast.
+
+Not made or endorsed by Corgi Taco.'''
+
+[[mixins]]
+config = "expandedcelestials.mixins.json"
+
+[[dependencies.${mod_id}]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "minecraft"
+type = "required"
+versionRange = "${minecraft_version_range}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "enhancedcelestials2core"
+type = "required"
+versionRange = "[2.0.3.3,)"
+ordering = "AFTER"
+side = "BOTH"
