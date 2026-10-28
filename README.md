@@ -60,4 +60,4 @@ Put the jars listed in `libs/README.txt` into `libs/` (Enhanced Celestials 2 Cor
 
 Enhanced Celestials 2 is by Corgi Taco (All Rights Reserved) and is not included in this repository or the mod.
 
-Licensed under the GNU Lesser General Public License v3.0 only: see [LICENSE](LICENSE) (with the GPL text it builds on in [COPYING](COPYING)). Made for the Foundation modpack, with help from Claude.
+Licensed under the GNU Lesser General Public License v3.0 only: see [LICENSE](LICENSE) (with the GPL text it builds on in [COPYING](COPYING)). Made for the Foundation modpack, with AI assistance.
