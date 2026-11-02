@@ -2,26 +2,45 @@ package dev.chill.expandedcelestials;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.event.tick.LevelTickEvent;
-import net.neoforged.neoforge.event.level.LevelEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.event.server.ServerStoppedEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 /** One cached environment per level; no forecast lookup inside individual gravity calls. */
 public final class EnvironmentModule {
     private record State(EnvironmentPayload payload,SpawnThemes.Theme theme,Rules.Profile profile) {}
     private static final Map<ServerLevel,State> STATES=new ConcurrentHashMap<>();
+    private static final ResourceLocation WORLD_GRAVITY=new ResourceLocation(GameplayPatch.ID,"world_gravity");
     private final Map<UUID,EnvironmentPayload> sent=new ConcurrentHashMap<>();
     private final Map<ServerLevel,ArrayDeque<Mob>> cleanup=new ConcurrentHashMap<>();
+    private final Map<ServerLevel,Double> mobGravity=new ConcurrentHashMap<>();
     public static double gravity(ServerLevel level) {var state=STATES.get(level);return state==null?1:state.payload.gravity();}
     public static SpawnThemes.Theme theme(ServerLevel level) {var state=STATES.get(level);return state==null?null:state.theme;}
     public static Rules.Profile profile(ServerLevel level){var state=STATES.get(level);return state==null?EventBridge.profile(level):state.profile;}
-    @SubscribeEvent public void tick(LevelTickEvent.Pre event) {
-        if(!(event.getLevel() instanceof ServerLevel level))return;
+    /** Mobs have their own gravity attribute in 1.20.1, so the moon's world gravity is applied to it as a temporary modifier. */
+    static void applyMobGravity(LivingEntity entity,double multiplier) {
+        if(entity instanceof Player)return; // Players get the same multiplier through AttributeModule.
+        var instance=entity.getAttribute(ForgeMod.ENTITY_GRAVITY.get());
+        if(instance==null)return;
+        UUID id=OwnedModifiers.uuid(WORLD_GRAVITY);
+        var existing=instance.getModifier(id);
+        if(multiplier==1){if(existing!=null)instance.removeModifier(id);return;}
+        if(existing!=null&&existing.getAmount()==multiplier-1)return;
+        if(existing!=null)instance.removeModifier(id);
+        instance.addTransientModifier(OwnedModifiers.modifier(WORLD_GRAVITY,multiplier-1,AttributeModifier.Operation.MULTIPLY_TOTAL));
+    }
+    @SubscribeEvent public void tick(TickEvent.LevelTickEvent event) {
+        if(event.phase!=TickEvent.Phase.START||!(event.level instanceof ServerLevel level))return;
         var profile=EventBridge.profile(level);
         var theme=SpawnThemes.theme(EventBridge.current(level),profile);
         var mechanics=profile==null?null:profile.mechanics;
@@ -30,6 +49,11 @@ public final class EnvironmentModule {
             mechanics!=null&&mechanics.enderParticles,mechanics!=null&&mechanics.enderSky,
             mechanics==null?0:mechanics.enderParticleRate);
         var state=new State(payload,theme,profile);var previous=STATES.put(level,state);
+        var appliedGravity=mobGravity.get(level);
+        if(appliedGravity==null?gravity!=1:appliedGravity!=gravity) {
+            for(var entity:level.getAllEntities())if(entity instanceof LivingEntity living)applyMobGravity(living,gravity);
+            mobGravity.put(level,gravity);
+        }
         if(theme!=null && (previous==null||previous.theme!=theme)) {
             var pending=new ArrayDeque<Mob>();
             // Copy candidates before discarding; entity storage is not mutated during iteration.
@@ -42,13 +66,19 @@ public final class EnvironmentModule {
         }
         for(var player:level.players()) {
             if(!payload.equals(sent.get(player.getUUID())) || level.getGameTime()%100==0) {
-                PacketDistributor.sendToPlayer(player,payload);sent.put(player.getUUID(),payload);
+                MoonNetwork.send(player,payload);sent.put(player.getUUID(),payload);
             }
         }
     }
+    @SubscribeEvent public void join(EntityJoinLevelEvent event) {
+        if(event.getLevel() instanceof ServerLevel level && event.getEntity() instanceof LivingEntity living) {
+            double gravity=gravity(level);
+            if(gravity!=1)applyMobGravity(living,gravity);
+        }
+    }
     @SubscribeEvent public void unload(LevelEvent.Unload event) {
-        if(event.getLevel() instanceof ServerLevel level){STATES.remove(level);cleanup.remove(level);}
+        if(event.getLevel() instanceof ServerLevel level){STATES.remove(level);cleanup.remove(level);mobGravity.remove(level);}
     }
     @SubscribeEvent public void logout(PlayerEvent.PlayerLoggedOutEvent event){sent.remove(event.getEntity().getUUID());}
-    @SubscribeEvent public void stop(ServerStoppedEvent event){STATES.clear();cleanup.clear();sent.clear();}
+    @SubscribeEvent public void stop(ServerStoppedEvent event){STATES.clear();cleanup.clear();sent.clear();mobGravity.clear();}
 }

@@ -9,7 +9,7 @@ final class MoonNames {
     static final List<String> COMMAND_NAMES = java.util.stream.Stream.concat(NAMES.stream(), java.util.stream.Stream.of("pillager_moon")).toList();
     static ResourceLocation id(String name) {
         if(name.equals("pillager_moon"))name="grey_moon";
-        if (name.contains(":")) return ResourceLocation.parse(name);
-        return ResourceLocation.fromNamespaceAndPath(List.of("big_moon", "tiny_moon", "miner_moon").contains(name) ? "enhancedcelestials2core" : "enhancedcelestials_plus", name);
+        if (name.contains(":")) return new ResourceLocation(name);
+        return new ResourceLocation(List.of("big_moon", "tiny_moon", "miner_moon").contains(name) ? "enhancedcelestials2core" : "enhancedcelestials_plus", name);
     }
 }

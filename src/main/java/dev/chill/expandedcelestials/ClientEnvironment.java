@@ -6,14 +6,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FogType;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
-import net.neoforged.neoforge.client.event.ViewportEvent;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
+import net.minecraftforge.client.event.ViewportEvent;
+import net.minecraftforge.event.TickEvent;
 
-@EventBusSubscriber(modid=ExpandedCelestials.MODID,value=Dist.CLIENT)
+@Mod.EventBusSubscriber(modid=ExpandedCelestials.MODID,value=Dist.CLIENT)
 public final class ClientEnvironment {
     private record State(ClientLevel level,EnvironmentPayload payload,long expires) {}
     private static volatile State state;
@@ -47,7 +47,8 @@ public final class ClientEnvironment {
             return shaderCheck!=null && (Boolean)shaderCheck.invoke(irisApi);
         } catch(ReflectiveOperationException|LinkageError error){return false;}
     }
-    @SubscribeEvent public static void tick(ClientTickEvent.Post event) {
+    @SubscribeEvent public static void tick(TickEvent.ClientTickEvent event) {
+        if(event.phase!=TickEvent.Phase.END)return;
         var minecraft=Minecraft.getInstance();var level=minecraft.level;var player=minecraft.player;
         if(level==null||player==null||minecraft.isPaused())return;
         long tick=level.getGameTime();if(tick==lastTick)return;lastTick=tick;

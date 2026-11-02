@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LightningBolt.class)
 public abstract class LightningMixin {
-    @Inject(method="spawnFire",at=@At("HEAD"),cancellable=true,remap=false)
+    @Inject(method="spawnFire",at=@At("HEAD"),cancellable=true)
     private void ecplus$noStormFires(int count,CallbackInfo ci) {
         if (((LightningBolt)(Object)this).level() instanceof ServerLevel level) {
             var profile=EventBridge.profile(level);if(profile!=null&&profile.mechanics.storm)ci.cancel();

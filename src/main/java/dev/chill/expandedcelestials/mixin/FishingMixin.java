@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class FishingMixin {
     @Shadow private int timeUntilLured;
     @Unique private double ecplus$extraProgress;
-    @Inject(method="catchingFish",at=@At("HEAD"),remap=false)
+    @Inject(method="catchingFish",at=@At("HEAD"))
     private void ecplus$fasterBites(BlockPos pos,CallbackInfo ci) {
         FishingHook hook=(FishingHook)(Object)this;
         if (!(hook.level() instanceof ServerLevel level)) return;

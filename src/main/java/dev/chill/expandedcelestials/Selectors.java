@@ -13,13 +13,13 @@ public final class Selectors {
     public static boolean entity(List<String> selectors, EntityType<?> type) {
         ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(type);
         return selectors.stream().anyMatch(s -> s.startsWith("#")
-            ? type.is(TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse(s.substring(1))))
+            ? type.is(TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(s.substring(1))))
             : matches(s, id));
     }
     public static boolean block(List<String> selectors, BlockState state) {
         ResourceLocation id = BuiltInRegistries.BLOCK.getKey(state.getBlock());
         return selectors.stream().anyMatch(s -> s.startsWith("#")
-            ? state.is(TagKey.create(Registries.BLOCK, ResourceLocation.parse(s.substring(1))))
+            ? state.is(TagKey.create(Registries.BLOCK, new ResourceLocation(s.substring(1))))
             : matches(s, id));
     }
     private static boolean matches(String selector, ResourceLocation id) {

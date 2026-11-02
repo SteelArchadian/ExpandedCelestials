@@ -1,6 +1,6 @@
 package dev.chill.expandedcelestials;
 
-import net.neoforged.fml.loading.FMLPaths;
+import net.minecraftforge.fml.loading.FMLPaths;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;

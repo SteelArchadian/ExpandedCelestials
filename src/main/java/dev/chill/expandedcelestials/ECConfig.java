@@ -1,15 +1,15 @@
 package dev.chill.expandedcelestials;
 
-import net.neoforged.neoforge.common.ModConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 /** On/off switches for the add-on as a whole. Per-moon tuning lives in config/expandedcelestials.json. */
 public final class ECConfig {
-    public static final ModConfigSpec SPEC;
-    public static final ModConfigSpec.BooleanValue EXTRA_MOONS;
-    public static final ModConfigSpec.BooleanValue MOONS_IN_RAIN;
-    public static final ModConfigSpec.BooleanValue QUIET_JOIN_MESSAGES;
+    public static final ForgeConfigSpec SPEC;
+    public static final ForgeConfigSpec.BooleanValue EXTRA_MOONS;
+    public static final ForgeConfigSpec.BooleanValue MOONS_IN_RAIN;
+    public static final ForgeConfigSpec.BooleanValue QUIET_JOIN_MESSAGES;
     static {
-        var b = new ModConfigSpec.Builder();
+        var b = new ForgeConfigSpec.Builder();
         EXTRA_MOONS = b.comment("Add the 19 Expanded Celestials moons (Big, Tiny, Miner, Blood, Eclipse, Ender, ...).",
                 "If you turn this off on an existing world, run /ecplus refreshForecast afterwards.")
             .define("extraMoons", true);
@@ -21,7 +21,7 @@ public final class ECConfig {
     }
     private ECConfig() {}
     /** Safe to call before the config file is loaded (returns the default). */
-    public static boolean on(ModConfigSpec.BooleanValue value) {
-        return !SPEC.isLoaded() || value.get();
+    public static boolean on(ForgeConfigSpec.BooleanValue value) {
+        try { return value.get(); } catch (IllegalStateException notLoaded) { return true; }
     }
 }

@@ -16,10 +16,10 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.ServerLevelData;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.event.tick.LevelTickEvent;
-import net.neoforged.neoforge.event.level.LevelEvent;
-import net.neoforged.neoforge.event.server.ServerStoppingEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 
 public final class AmbientModule {
     private record Weather(boolean rain, boolean thunder, int rainTime, int thunderTime, int clearTime) {
@@ -33,8 +33,8 @@ public final class AmbientModule {
     private final Map<ServerLevel, Weather> weather = new ConcurrentHashMap<>();
     private static final Item[] METEOR_ITEMS = {Items.STONE, Items.STONE, Items.ANDESITE, Items.DIORITE, Items.GRANITE,
         Items.RAW_IRON, Items.RAW_COPPER, Items.COAL, Items.RAW_GOLD};
-    @SubscribeEvent public void tick(LevelTickEvent.Post event) {
-        if (!(event.getLevel() instanceof ServerLevel level) || level.getGameTime() % 20 != 0) return;
+    @SubscribeEvent public void tick(TickEvent.LevelTickEvent event) {
+        if (event.phase != TickEvent.Phase.END || !(event.level instanceof ServerLevel level) || level.getGameTime() % 20 != 0) return;
         Rules.Profile profile = EventBridge.profile(level);
         boolean storm = profile != null && profile.mechanics.storm && level.dimension().equals(Level.OVERWORLD)
             && level.getGameRules().getBoolean(GameRules.RULE_WEATHER_CYCLE);

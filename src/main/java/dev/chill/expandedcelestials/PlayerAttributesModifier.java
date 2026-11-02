@@ -10,12 +10,13 @@ import java.util.List;
 /** EC2-native datapack modifier; server configuration can override it per event. */
 public record PlayerAttributesModifier(double gravityMultiplier, double miningSpeedMultiplier, List<Rules.AttributeRule> attributes) implements LunarEventModifier {
     private static Codec<Double> multiplier(double low, double high) {
-        return Codec.DOUBLE.validate(n -> Double.isFinite(n) && n >= low && n <= high
-            ? DataResult.success(n) : DataResult.error(() -> "Multiplier must be finite and in [" + low + ", " + high + "]"));
+        java.util.function.Function<Double, DataResult<Double>> check = n -> Double.isFinite(n) && n >= low && n <= high
+            ? DataResult.success(n) : DataResult.error(() -> "Multiplier must be finite and in [" + low + ", " + high + "]");
+        return Codec.DOUBLE.flatXmap(check, check);
     }
     private static final Codec<Rules.AttributeRule> ATTRIBUTE_CODEC = RecordCodecBuilder.create(b -> b.group(
         Codec.STRING.fieldOf("key").forGetter((Rules.AttributeRule r) -> r.key),
-        ResourceLocation.CODEC.fieldOf("attribute").forGetter((Rules.AttributeRule r) -> ResourceLocation.parse(r.attribute)),
+        ResourceLocation.CODEC.fieldOf("attribute").forGetter((Rules.AttributeRule r) -> new ResourceLocation(r.attribute)),
         Codec.DOUBLE.fieldOf("amount").forGetter((Rules.AttributeRule r) -> r.amount),
         Codec.STRING.optionalFieldOf("operation", "ADD_MULTIPLIED_TOTAL").forGetter((Rules.AttributeRule r) -> r.operation)
     ).apply(b, (key, attribute, amount, operation) -> {

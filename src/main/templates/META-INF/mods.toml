@@ -15,26 +15,26 @@ Switches: config/expandedcelestials-common.toml (extra moons, moons in rain, qui
 
 Not made or endorsed by Corgi Taco.'''
 
-[[mixins]]
-config = "expandedcelestials.mixins.json"
-
 [[dependencies.${mod_id}]]
-modId = "neoforge"
-type = "required"
-versionRange = "[21.1.0,)"
+modId = "forge"
+mandatory = true
+versionRange = "${forge_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.${mod_id}]]
 modId = "minecraft"
-type = "required"
+mandatory = true
 versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.${mod_id}]]
 modId = "enhancedcelestials2core"
-type = "required"
-versionRange = "[2.0.3.3,)"
+mandatory = true
+versionRange = "[1.0.3.3,)"
 ordering = "AFTER"
 side = "BOTH"
+
+[[mixins]]
+config = "${mod_id}.mixins.json"

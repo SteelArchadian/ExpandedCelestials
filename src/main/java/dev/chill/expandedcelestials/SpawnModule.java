@@ -6,11 +6,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.MobSpawnSettings;
-import net.neoforged.bus.api.EventPriority;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent;
-import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
-import net.neoforged.neoforge.event.level.LevelEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.event.entity.living.MobSpawnEvent;
+import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.event.level.LevelEvent;
 import java.util.*;
 
 public final class SpawnModule {
@@ -60,7 +60,7 @@ public final class SpawnModule {
             }
             for (Rules.Replacement replacement : rules.replacements) {
                 if (!Selectors.entity(List.of(replacement.from), entry.type)) continue;
-                EntityType<?> to = BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(replacement.to));
+                EntityType<?> to = BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(replacement.to));
                 // Cross-category replacement would bypass natural category caps. Reject it.
                 if (to.getCategory() != e.getMobCategory()) break;
                 e.removeSpawnerData(entry);
@@ -79,7 +79,7 @@ public final class SpawnModule {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void placement(MobSpawnEvent.SpawnPlacementCheck event) {
         if (event.getSpawnType() != net.minecraft.world.entity.MobSpawnType.NATURAL
-                || event.getResult() != MobSpawnEvent.SpawnPlacementCheck.Result.DEFAULT) return;
+                || event.getResult() != Event.Result.DEFAULT) return;
         ServerLevel level = event.getLevel().getLevel();
         Rules.Profile profile = EnvironmentModule.profile(level);
         if (profile == null) return;
@@ -87,7 +87,7 @@ public final class SpawnModule {
         var id = EventBridge.current(level);
         var theme=SpawnThemes.theme(id,profile);
         if(theme!=null && type.getCategory()==net.minecraft.world.entity.MobCategory.MONSTER && !SpawnThemes.allows(theme,type)) {
-            event.setResult(MobSpawnEvent.SpawnPlacementCheck.Result.FAIL);return;
+            event.setResult(Event.Result.DENY);return;
         }
         if (theme!=null && SpawnThemes.entries(theme).stream().anyMatch(s -> s.type == type)
                 && !excluded(level,profile.spawns,type)) {
@@ -97,8 +97,8 @@ public final class SpawnModule {
             if (level.getDifficulty() != net.minecraft.world.Difficulty.PEACEFUL
                     && net.minecraft.world.entity.monster.Monster.isDarkEnoughToSpawn(level,event.getPos(),level.random)
                     && level.getBlockState(event.getPos().below()).isValidSpawn(level,event.getPos().below(),type))
-                event.setResult(MobSpawnEvent.SpawnPlacementCheck.Result.SUCCEED);
-            else event.setResult(MobSpawnEvent.SpawnPlacementCheck.Result.FAIL);
+                event.setResult(Event.Result.ALLOW);
+            else event.setResult(Event.Result.DENY);
             return;
         }
         if(event.getDefaultResult())return;
@@ -109,10 +109,10 @@ public final class SpawnModule {
             .getMobs(net.minecraft.world.entity.MobCategory.CREATURE).unwrap().stream().anyMatch(s -> s.type == type);
         if (nativeBiome && level.getBlockState(event.getPos().below()).is(net.minecraft.tags.BlockTags.ANIMALS_SPAWNABLE_ON)
                 && level.isEmptyBlock(event.getPos()) && level.isEmptyBlock(event.getPos().above()))
-            event.setResult(MobSpawnEvent.SpawnPlacementCheck.Result.SUCCEED);
+            event.setResult(Event.Result.ALLOW);
     }
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
-    public void finalizeSpawn(FinalizeSpawnEvent e) {
+    public void finalizeSpawn(MobSpawnEvent.FinalizeSpawn e) {
         ServerLevel level = e.getLevel().getLevel();
         EntityType<?> type = e.getEntity().getType();
         Rules.Profile profile = EnvironmentModule.profile(level);
@@ -129,7 +129,7 @@ public final class SpawnModule {
             e.setSpawnCancelled(true);
     }
     @SubscribeEvent(priority=EventPriority.LOWEST)
-    public void join(net.neoforged.neoforge.event.entity.EntityJoinLevelEvent event) {
+    public void join(net.minecraftforge.event.entity.EntityJoinLevelEvent event) {
         if(event.getLevel() instanceof ServerLevel level && event.getEntity() instanceof net.minecraft.world.entity.Mob mob
                 && SpawnThemes.canCull(mob,EnvironmentModule.theme(level)))event.setCanceled(true);
     }

@@ -4,7 +4,6 @@ import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 
 public final class TraderGoods {
@@ -15,6 +14,6 @@ public final class TraderGoods {
         if (profile == null || !profile.mechanics.extraTraderGoods) return;
         int first = level.random.nextInt(GOODS.length), second = (first+1+level.random.nextInt(GOODS.length-1))%GOODS.length;
         for (int index : new int[]{first,second}) trader.getOffers().add(new MerchantOffer(
-            new ItemCost(Items.EMERALD, index == 1 ? 8 : 4),new ItemStack(GOODS[index]),2,1,.05f));
+            new ItemStack(Items.EMERALD, index == 1 ? 8 : 4),new ItemStack(GOODS[index]),2,1,.05f));
     }
 }

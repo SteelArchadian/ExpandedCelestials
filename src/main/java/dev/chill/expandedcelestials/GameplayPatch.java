@@ -1,12 +1,12 @@
 package dev.chill.expandedcelestials;
 
 import com.mojang.logging.LogUtils;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.common.NeoForge;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
 import org.slf4j.Logger;
 
 public final class GameplayPatch {
-    /** Namespace of the extra moons' event IDs (kept from the test build so existing worlds keep their calendar). */
+    /** Namespace of the extra moons' event IDs (kept from the 1.21 build so settings carry over). */
     public static final String ID = "enhancedcelestials_plus";
     public static final Logger LOGGER = LogUtils.getLogger();
     private static boolean installed;
@@ -15,10 +15,10 @@ public final class GameplayPatch {
         if (installed) return;
         PlusModifiers.register(modBus);
         installed = true;
-        NeoForge.EVENT_BUS.register(new GameplayController());
-        NeoForge.EVENT_BUS.register(new SpawnModule());
-        NeoForge.EVENT_BUS.register(new GrowthDropsModule());
-        NeoForge.EVENT_BUS.register(new AmbientModule());
-        NeoForge.EVENT_BUS.register(new EnvironmentModule());
+        MinecraftForge.EVENT_BUS.register(new GameplayController());
+        MinecraftForge.EVENT_BUS.register(new SpawnModule());
+        MinecraftForge.EVENT_BUS.register(new GrowthDropsModule());
+        MinecraftForge.EVENT_BUS.register(new AmbientModule());
+        MinecraftForge.EVENT_BUS.register(new EnvironmentModule());
     }
 }

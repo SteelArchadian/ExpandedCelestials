@@ -12,11 +12,11 @@ import org.spongepowered.asm.mixin.injection.callback.*;
 @Mixin(NaturalSpawner.class)
 public abstract class SurfaceSpawnMixin {
     @Unique private static final ThreadLocal<MobCategory> ecplus$category=new ThreadLocal<>();
-    @Inject(method="spawnCategoryForChunk",at=@At("HEAD"),remap=false)
+    @Inject(method="spawnCategoryForChunk",at=@At("HEAD"))
     private static void ecplus$category(MobCategory category,ServerLevel level,LevelChunk chunk,NaturalSpawner.SpawnPredicate check,NaturalSpawner.AfterSpawnCallback after,CallbackInfo ci){ecplus$category.set(category);}
-    @Inject(method="spawnCategoryForChunk",at=@At("RETURN"),remap=false)
+    @Inject(method="spawnCategoryForChunk",at=@At("RETURN"))
     private static void ecplus$clearCategory(MobCategory category,ServerLevel level,LevelChunk chunk,NaturalSpawner.SpawnPredicate check,NaturalSpawner.AfterSpawnCallback after,CallbackInfo ci){ecplus$category.set(null);}
-    @Inject(method="getRandomPosWithin",at=@At("RETURN"),cancellable=true,remap=false)
+    @Inject(method="getRandomPosWithin",at=@At("RETURN"),cancellable=true)
     private static void ecplus$visibleSpawns(Level world,LevelChunk chunk,CallbackInfoReturnable<BlockPos> ci) {
         if(ecplus$category.get()!=MobCategory.MONSTER || !(world instanceof ServerLevel level)
                 || EnvironmentModule.theme(level)==null || level.random.nextDouble()>=.65)return;

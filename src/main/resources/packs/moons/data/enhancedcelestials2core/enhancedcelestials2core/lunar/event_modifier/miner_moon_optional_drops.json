@@ -6,9 +6,9 @@
         {
           "minimum_count": 1,
           "multipliers": {
-            "#c:raw_materials": 2.0,
-            "#c:gems": 2.0,
-            "#c:dusts": 2.0
+            "#forge:raw_materials": 2.0,
+            "#forge:gems": 2.0,
+            "#forge:dusts": 2.0
           }
         }
       ]

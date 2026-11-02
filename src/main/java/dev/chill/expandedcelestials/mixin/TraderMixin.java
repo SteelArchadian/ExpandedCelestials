@@ -7,6 +7,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(WanderingTrader.class)
 public abstract class TraderMixin {
-    @Inject(method="updateTrades",at=@At("TAIL"),remap=false)
+    @Inject(method="updateTrades",at=@At("TAIL"))
     private void ecplus$goods(CallbackInfo ci){TraderGoods.add((WanderingTrader)(Object)this);}
 }

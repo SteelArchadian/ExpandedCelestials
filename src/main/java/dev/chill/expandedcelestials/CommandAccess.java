@@ -14,6 +14,10 @@ public final class CommandAccess {
         boolean owner = singleplayer && server.isSingleplayerOwner(player.getGameProfile());
         return allowed(false, singleplayer, owner);
     }
+    /** Forcing a moon is a test tool: controllers only, and only while in creative mode. */
+    public static boolean canTest(CommandSourceStack source) {
+        return canControl(source) && source.getPlayer() != null && source.getPlayer().isCreative();
+    }
     static boolean allowed(boolean operator, boolean singleplayer, boolean owner) {
         return operator || singleplayer && owner;
     }

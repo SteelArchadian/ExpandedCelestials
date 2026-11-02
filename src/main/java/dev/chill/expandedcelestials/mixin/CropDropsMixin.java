@@ -14,10 +14,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Block.class)
 public abstract class CropDropsMixin {
     @Inject(method="getDrops(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/entity/BlockEntity;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/item/ItemStack;)Ljava/util/List;",
-        at=@At("RETURN"),cancellable=true,remap=false)
-    private static void ecplus$cropYield(BlockState state,ServerLevel level,BlockPos pos,BlockEntity blockEntity,Entity entity,ItemStack tool,CallbackInfoReturnable<List<ItemStack>> ci) {
+        at=@At("RETURN"),cancellable=true)
+    private static void ecplus$extraDrops(BlockState state,ServerLevel level,BlockPos pos,BlockEntity blockEntity,Entity entity,ItemStack tool,CallbackInfoReturnable<List<ItemStack>> ci) {
         var original=ci.getReturnValue();
-        var modified=GrowthDropsModule.cropDrops(state,level,entity,original);
+        var modified=GrowthDropsModule.oreDrops(state,level,entity,GrowthDropsModule.cropDrops(state,level,entity,original));
         if(modified!=original)ci.setReturnValue(modified);
     }
 }

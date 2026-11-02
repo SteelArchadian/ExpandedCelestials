@@ -5,12 +5,13 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.event.RegisterCommandsEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.event.server.*;
-import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.*;
+import net.minecraftforge.event.TickEvent;
 import java.util.*;
 
 public final class GameplayController {
@@ -26,8 +27,15 @@ public final class GameplayController {
         try { RuleStore.reload(); }
         catch (Exception error) { throw new IllegalStateException("Invalid " + RuleStore.path() + ": " + error.getMessage(), error); }
     }
-    @SubscribeEvent public void tick(PlayerTickEvent.Post event) {
-        if (event.getEntity() instanceof ServerPlayer player) reconcile(player);
+    @SubscribeEvent public void tick(TickEvent.PlayerTickEvent event) {
+        if (event.phase == TickEvent.Phase.END && event.player instanceof ServerPlayer player) reconcile(player);
+    }
+    /** Mining-speed multiplier (1.20.1 has no block-break-speed attribute, so it is applied as an event bonus). */
+    @SubscribeEvent public void breakSpeed(net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            Rules.Profile profile = EventBridge.profile(player.serverLevel());
+            if (profile != null && profile.miningSpeedMultiplier != 1.0) event.setNewSpeed((float)(event.getNewSpeed() * profile.miningSpeedMultiplier));
+        }
     }
     private void reconcile(ServerPlayer player) {
         if (!player.isAlive() || player.isRemoved()) { cleanup(player); return; }
@@ -74,8 +82,8 @@ public final class GameplayController {
                 String text = "Expanded Celestials: event=" + EventBridge.current(player.serverLevel())
                     + ", active=" + forecast.map(f -> f.isEventActive()).orElse(false)
                     + ", profile=" + (profile != null)
-                    + ", gravity=" + player.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.GRAVITY)
-                    + ", mining=" + player.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.BLOCK_BREAK_SPEED)
+                    + ", gravity=" + player.getAttributeValue(ForgeMod.ENTITY_GRAVITY.get())
+                    + ", mining=" + (profile == null ? 1.0 : profile.miningSpeedMultiplier)
                     + ", haste=" + (profile == null ? 0 : profile.mechanics.hasteLevel)
                     + ", hastePresent=" + player.hasEffect(net.minecraft.world.effect.MobEffects.DIG_SPEED)
                     + ", luck=" + player.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.LUCK)
@@ -85,7 +93,7 @@ public final class GameplayController {
                 context.getSource().sendSuccess(() -> Component.literal(text), false);
                 return 1;
             }))
-            .then(Commands.literal("test").requires(CommandAccess::canControl).then(Commands.argument("moon", com.mojang.brigadier.arguments.StringArgumentType.word())
+            .then(Commands.literal("test").requires(CommandAccess::canTest).then(Commands.argument("moon", com.mojang.brigadier.arguments.StringArgumentType.word())
                 .suggests((context, builder) -> net.minecraft.commands.SharedSuggestionProvider.suggest(MoonNames.COMMAND_NAMES, builder))
                 .executes(context -> {
                     var level = context.getSource().getLevel();

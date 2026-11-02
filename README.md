@@ -1,15 +1,15 @@
 <p align="center"><img src=".github/assets/banner.png" alt="ExpandedCelestials" width="100%"></p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Minecraft-1.21.1-62B47A?style=flat-square" alt="Minecraft 1.21.1">
-  <img src="https://img.shields.io/badge/Loader-NeoForge-F0323F?style=flat-square" alt="NeoForge">
+  <img src="https://img.shields.io/badge/Minecraft-1.20.1-62B47A?style=flat-square" alt="Minecraft 1.20.1">
+  <img src="https://img.shields.io/badge/Loader-Forge-F0323F?style=flat-square" alt="Forge">
   <img src="https://img.shields.io/badge/Side-Client%20%26%20server-4C8BF5?style=flat-square" alt="Side">
   <img src="https://img.shields.io/badge/License-LGPL--3.0--only-555555?style=flat-square" alt="LGPL-3.0-only">
 </p>
 
-**Expanded Celestials** adds 19 new moon events to **[Enhanced Celestials 2](https://modrinth.com/mod/enhanced-celestials-2-core)** by Corgi Taco, for Minecraft 1.21.1 with NeoForge.
+**Expanded Celestials** adds 19 new moon events to **[Enhanced Celestials 2](https://modrinth.com/mod/enhanced-celestials-2-core)** by Corgi Taco, for Minecraft 1.20.1 with Forge (47.x).
 
-> **Requires** the official **Enhanced Celestials 2: Core** (2.0.3.3 or newer) and its libraries **CorgiLib** and **Data Anchor**. This add-on contains none of Enhanced Celestials' code or files, and isn't made or endorsed by Corgi Taco.
+> **Requires** the official **Enhanced Celestials 2: Core** (1.0.3.3 or newer) and its libraries **CorgiLib** and **Data Anchor**. This add-on contains none of Enhanced Celestials' code or files, and isn't made or endorsed by Corgi Taco.
 
 ## The moons
 
@@ -37,7 +37,7 @@
 
 ## Commands
 
-`/ecplus status`, `/ecplus test <moon>`, `/ecplus reload`, `/ecplus refreshForecast`. Singleplayer owners can use them without cheats; on servers they need operator permission.
+`/ecplus status`, `/ecplus test <moon>` (creative mode only), `/ecplus reload`, `/ecplus refreshForecast`. Singleplayer owners can use them without cheats; on servers they need operator permission.
 
 ## Settings
 

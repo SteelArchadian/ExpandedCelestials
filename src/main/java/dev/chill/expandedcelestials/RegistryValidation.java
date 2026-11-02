@@ -14,17 +14,17 @@ final class RegistryValidation {
     }
     static void attributes(List<Rules.AttributeRule> rules) {
             rules.forEach(a -> {
-                if (!BuiltInRegistries.ATTRIBUTE.containsKey(ResourceLocation.parse(a.attribute)))
+                if (!BuiltInRegistries.ATTRIBUTE.containsKey(new ResourceLocation(a.attribute)))
                     throw new IllegalArgumentException("Unknown attribute: " + a.attribute);
-                if (a.attribute.equals("minecraft:generic.gravity") || a.attribute.equals("minecraft:player.block_break_speed"))
-                    throw new IllegalArgumentException("Use gravityMultiplier/miningSpeedMultiplier for " + a.attribute);
+                if (a.attribute.equals("forge:entity_gravity") || a.attribute.equals("minecraft:generic.gravity"))
+                    throw new IllegalArgumentException("Use gravityMultiplier for " + a.attribute);
             });
     }
     private static void entitySelectors(List<String> selectors) {
         selectors.stream().filter(s -> !s.startsWith("#") && !s.endsWith(":*")).forEach(RegistryValidation::entity);
     }
     private static void entity(String id) {
-        if (!BuiltInRegistries.ENTITY_TYPE.containsKey(ResourceLocation.parse(id)))
+        if (!BuiltInRegistries.ENTITY_TYPE.containsKey(new ResourceLocation(id)))
             throw new IllegalArgumentException("Unknown entity: " + id);
     }
 }
