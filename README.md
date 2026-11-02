@@ -37,7 +37,7 @@
 
 ## Commands
 
-`/ecplus status`, `/ecplus test <moon>`, `/ecplus reload`, `/ecplus refreshForecast`. Singleplayer owners can use them without cheats; on servers they need operator permission.
+`/ecplus status`, `/ecplus test <moon>`, `/ecplus reload`, `/ecplus refreshForecast`. Singleplayer owners can use them without cheats; on servers they need operator permission. `/ecplus test` only works in creative mode.
 
 ## Settings
 

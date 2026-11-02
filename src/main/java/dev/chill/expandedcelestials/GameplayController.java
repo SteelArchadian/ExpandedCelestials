@@ -85,7 +85,7 @@ public final class GameplayController {
                 context.getSource().sendSuccess(() -> Component.literal(text), false);
                 return 1;
             }))
-            .then(Commands.literal("test").requires(CommandAccess::canControl).then(Commands.argument("moon", com.mojang.brigadier.arguments.StringArgumentType.word())
+            .then(Commands.literal("test").requires(CommandAccess::canTest).then(Commands.argument("moon", com.mojang.brigadier.arguments.StringArgumentType.word())
                 .suggests((context, builder) -> net.minecraft.commands.SharedSuggestionProvider.suggest(MoonNames.COMMAND_NAMES, builder))
                 .executes(context -> {
                     var level = context.getSource().getLevel();
