@@ -38,7 +38,6 @@ public final class SpawnModule {
         var current=EventBridge.current(level);
         var theme=SpawnThemes.theme(current,profile);
         if(theme!=null && e.getMobCategory()==net.minecraft.world.entity.MobCategory.MONSTER) {
-            for(var entry:List.copyOf(e.getSpawnerDataList()))e.removeSpawnerData(entry);
             for(var entry:SpawnThemes.entries(theme))if(!excluded(level,rules,entry.type))e.addSpawnerData(entry);
             return;
         }

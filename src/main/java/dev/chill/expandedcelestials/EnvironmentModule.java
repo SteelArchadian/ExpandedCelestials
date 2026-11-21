@@ -28,7 +28,7 @@ public final class EnvironmentModule {
         double gravity=mechanics!=null&&mechanics.worldGravity?profile.gravityMultiplier:1;
         var payload=new EnvironmentPayload(level.dimension().location(),gravity,
             mechanics!=null&&mechanics.enderParticles,mechanics!=null&&mechanics.enderSky,
-            mechanics==null?0:mechanics.enderParticleRate);
+            mechanics==null?0:mechanics.enderParticleRate,mechanics!=null&&mechanics.eclipseSky);
         var state=new State(payload,theme,profile);var previous=STATES.put(level,state);
         if(theme!=null && (previous==null||previous.theme!=theme)) {
             var pending=new ArrayDeque<Mob>();

@@ -16,6 +16,7 @@ final class UpgradeRules {
                     profile.mechanics.worldGravity = proposed.mechanics.worldGravity;
                     profile.mechanics.themedSpawns = proposed.mechanics.themedSpawns;
                     profile.mechanics.enderSky = proposed.mechanics.enderSky;
+                    profile.mechanics.eclipseSky = proposed.mechanics.eclipseSky;
                     profile.mechanics.enderParticleRate = proposed.mechanics.enderParticleRate;
                 }
             }

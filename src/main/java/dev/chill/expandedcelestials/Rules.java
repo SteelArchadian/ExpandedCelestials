@@ -25,6 +25,7 @@ public final class Rules {
         public boolean worldGravity;
         public boolean themedSpawns;
         public boolean enderSky;
+        public boolean eclipseSky;
         public int enderParticleRate = 32;
         public int hasteLevel;
         public boolean friendlyOnly;
